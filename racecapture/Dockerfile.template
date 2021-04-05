@@ -1,0 +1,15 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:jessie
+
+RUN install_packages curl bzip2 mesa-utils mtdev-tools
+
+ENV APP_VER 1.16.3
+RUN curl --silent \
+	https://autosportlabs-software.s3-us-west-2.amazonaws.com/racecapture_linux_raspberrypi__${APP_VER}.tar.bz2 | \
+	tar xj
+
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+WORKDIR /app
+ENTRYPOINT [ "/app/entrypoint.sh" ]
+CMD [ "/racecapture/racecapture" ]

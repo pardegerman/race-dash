@@ -1,0 +1,10 @@
+version: '2'
+volumes:
+  racecapture-data:
+
+services:
+  racecapture:
+    build: ./racecapture
+    privileged: true
+    volumes:
+      - "racecapture-data:/app/.config/racecapture"
