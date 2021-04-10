@@ -1,0 +1,10 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-golang:latest-build as build
+WORKDIR /go/src/btns
+COPY main.go main.go
+RUN go get && go build
+
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine:latest as run
+WORKDIR /app
+
+COPY --from=build /go/src/btns/btns .
+CMD [ "./btns" ]

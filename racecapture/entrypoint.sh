@@ -5,13 +5,12 @@ set -e
 mkdir -p .kivy
 mkdir -p .config/racecapture
 
-# Configure for the correct touchscreen driver
-if lsusb | grep -q 04d8:0c02; then
-  cp -n ar1100_kivy_config.ini .kivy/config.ini
-fi
-if lsmod | grep -q rpi_ft5406; then
-  cp -n ft5406_kivy_config.ini .kivy/config.ini
-fi
+# Configure kivy
+cp -n /racecapture/ft5406_kivy_config.ini .kivy/config.ini
+crudini --set .kivy/config.ini input btns hidinput,/dev/input/event1
+crudini --set .kivy/config.ini input mouse mouse,disable_on_activity
+crudini --set .kivy/config.ini graphics show_cursor 0
+crudini --del .kivy/config.ini modules cursor
 
 HOMEDIR=$(pwd)
 EXECDIR=$(dirname $1)

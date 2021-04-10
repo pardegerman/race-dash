@@ -3,8 +3,18 @@ volumes:
   racecapture-data:
 
 services:
+  btns:
+    build: ./btns
+    privileged: true
+
   racecapture:
     build: ./racecapture
+    depends_on:
+      - btns
     privileged: true
+    devices:
+      - "/dev/input/event0:/dev/input/event0"    
+      - "/dev/input/event1:/dev/input/event1"
+      - "/dev/ttyACM0:/dev/ttyACM0"
     volumes:
       - "racecapture-data:/app/.config/racecapture"
