@@ -14,7 +14,8 @@ import (
 var (
 	green = rpio.Pin(23) // GPIO 4
 	red = rpio.Pin(18) // GPIO 1
-	backlight = rpio.Pin(24) // GPIO 5
+	backlightRed = rpio.Pin(24) // GPIO 5
+	backlightGreen = rpio.Pin(25) // GPIO 6
 )
 
 func checkBtn(pin rpio.Pin, keyboard uinput.Keyboard, key int) {
@@ -46,8 +47,10 @@ func main() {
 	defer keyboard.Close()
 
 	// Turn on backlight
-	backlight.Output()
-	backlight.High()
+	backlightRed.Output()
+	backlightGreen.Output()
+	backlightRed.High()
+	backlightGreen.High()
 
 	// Check green button
 	go checkBtn(green, keyboard, uinput.KeyK)
@@ -61,6 +64,7 @@ func main() {
     <-c
 
 	// Turn off backlight
-	backlight.Low()
+	backlightRed.Low()
+	backlightGreen.Low()
 }
 
